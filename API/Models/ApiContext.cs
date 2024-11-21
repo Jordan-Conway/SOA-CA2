@@ -7,6 +7,6 @@ namespace API.Models
         public ApiContext(DbContextOptions<ApiContext> options) : base(options) { }
 
         public DbSet<ImageItem> Images { get; set; } = null!;
-        public DbSet<QuestionItem> QuestionItems { get; set; } = null !;
+        public DbSet<QuestionItem> Questions { get; set; } = null !;
     }
 }

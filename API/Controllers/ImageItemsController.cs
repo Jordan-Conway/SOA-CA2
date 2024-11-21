@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API.Models;
+using API.DTOs;
 
 namespace API.Controllers
 {
@@ -24,7 +25,21 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ImageItem>>> GetImages()
         {
-            return await _context.Images.ToListAsync();
+            if(_context.Images == null)
+            {
+                return NotFound();
+            }
+
+            var images = await _context.Images.Select(t =>
+                new ImageDto()
+                {
+                    Id = t.Id,
+                    Name = t.Name == null ? "" : t.Name,
+                    Url = t.Url,
+                    Author = t.Author
+                }).ToListAsync();
+
+            return Ok(images);
         }
 
         // GET: api/ImageItems/5

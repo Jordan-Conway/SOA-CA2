@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API.Models;
+using API.DTOs;
 
 namespace API.Controllers
 {
@@ -24,14 +25,28 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<QuestionItem>>> GetQuestionItems()
         {
-            return await _context.QuestionItems.ToListAsync();
+            if(_context.Questions == null)
+            {
+                return NotFound();
+            }
+
+            var questions = await _context.Questions.Select(t =>
+                new QuestionDTO()
+                {
+                    Id = t.Id,
+                    Text = t.Text,
+                    Author = t.Author
+                }
+            ).ToListAsync();
+
+            return Ok(questions);
         }
 
         // GET: api/QuestionItems/5
         [HttpGet("{id}")]
         public async Task<ActionResult<QuestionItem>> GetQuestionItem(Guid id)
         {
-            var questionItem = await _context.QuestionItems.FindAsync(id);
+            var questionItem = await _context.Questions.FindAsync(id);
 
             if (questionItem == null)
             {
@@ -77,7 +92,7 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<QuestionItem>> PostQuestionItem(QuestionItem questionItem)
         {
-            _context.QuestionItems.Add(questionItem);
+            _context.Questions.Add(questionItem);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetQuestionItem), new { id = questionItem.Id }, questionItem);
@@ -87,13 +102,13 @@ namespace API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteQuestionItem(Guid id)
         {
-            var questionItem = await _context.QuestionItems.FindAsync(id);
+            var questionItem = await _context.Questions.FindAsync(id);
             if (questionItem == null)
             {
                 return NotFound();
             }
 
-            _context.QuestionItems.Remove(questionItem);
+            _context.Questions.Remove(questionItem);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -101,7 +116,7 @@ namespace API.Controllers
 
         private bool QuestionItemExists(Guid id)
         {
-            return _context.QuestionItems.Any(e => e.Id == id);
+            return _context.Questions.Any(e => e.Id == id);
         }
     }
 }
