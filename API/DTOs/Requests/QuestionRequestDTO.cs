@@ -1,4 +1,4 @@
-﻿namespace API.DTOs
+﻿namespace API.DTOs.Requests
 {
     //This DTO represents a complete request from the client
     public class QuestionRequestDTO
