@@ -8,5 +8,7 @@ namespace API.Models
 
         public DbSet<ImageItem> Images { get; set; } = null!;
         public DbSet<QuestionItem> Questions { get; set; } = null !;
+
+        public DbSet<UserItem> Users { get; set; }
     }
 }

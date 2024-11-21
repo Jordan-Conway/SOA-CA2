@@ -1,4 +1,5 @@
 ﻿using System;
+using API.Enums;
 
 namespace API.DTOs
 {
