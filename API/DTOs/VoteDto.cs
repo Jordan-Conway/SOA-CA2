@@ -8,7 +8,7 @@ namespace API.DTOs
         public System.Guid ImageTwoId { get; set; }
 
         public System.Guid QuestionId { get; set; }
-
-        public int Answer { get; set; }
+        
+        public Answer UserAnswer { get; set; }
     }
 }
