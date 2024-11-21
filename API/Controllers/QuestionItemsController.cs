@@ -59,7 +59,7 @@ namespace API.Controllers
         // PUT: api/QuestionItems/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutQuestionItem(Guid id, QuestionItem questionItem)
+        public async Task<IActionResult> PutQuestionItem(int id, QuestionItem questionItem)
         {
             if (id != questionItem.Id)
             {
@@ -114,7 +114,7 @@ namespace API.Controllers
             return NoContent();
         }
 
-        private bool QuestionItemExists(Guid id)
+        private bool QuestionItemExists(int id)
         {
             return _context.Questions.Any(e => e.Id == id);
         }

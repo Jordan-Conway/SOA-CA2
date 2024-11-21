@@ -3,6 +3,6 @@
     public class DeleteImageRequestDTO
     {
         public required System.Guid UserID { get; set; }
-        public required System.Guid ImageID { get; set; }
+        public required int ImageID { get; set; }
     }
 }

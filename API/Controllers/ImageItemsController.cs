@@ -59,7 +59,7 @@ namespace API.Controllers
         // PUT: api/ImageItems/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutImageItem(Guid id, ImageItem imageItem)
+        public async Task<IActionResult> PutImageItem(int id, ImageItem imageItem)
         {
             if (id != imageItem.Id)
             {
@@ -114,7 +114,7 @@ namespace API.Controllers
             return NoContent();
         }
 
-        private bool ImageItemExists(Guid id)
+        private bool ImageItemExists(int id)
         {
             return _context.Images.Any(e => e.Id == id);
         }

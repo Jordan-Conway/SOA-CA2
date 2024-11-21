@@ -2,7 +2,7 @@
 {
     public class ImageDto
     {
-        public System.Guid Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Url { get; set; }
 
