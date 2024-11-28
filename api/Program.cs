@@ -3,12 +3,13 @@ using api.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
+// Add services to the container.
 builder.Services.AddControllers();
-builder.Services.AddDbContext<PokemonEntryContext>(opt => opt.UseSqlite("Pokemon"));
-builder.Services.AddDbContext<QuestionEntryContext>(opt => opt.UseSqlite("Questions"));
-builder.Services.AddDbContext<VoteEntryContext>(opt => opt.UseSqlite("Votes"));
+builder.Services.AddDbContext<PokemonEntryContext>(opt => opt.UseSqlite(connectionString));
+builder.Services.AddDbContext<QuestionEntryContext>(opt => opt.UseSqlite(connectionString));
+builder.Services.AddDbContext<VoteEntryContext>(opt => opt.UseSqlite(connectionString));
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
