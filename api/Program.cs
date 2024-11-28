@@ -1,8 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using api.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddDbContext<PokemonEntryContext>(opt => opt.UseSqlite("Pokemon"));
+builder.Services.AddDbContext<QuestionEntryContext>(opt => opt.UseSqlite("Questions"));
+builder.Services.AddDbContext<VoteEntryContext>(opt => opt.UseSqlite("Votes"));
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
