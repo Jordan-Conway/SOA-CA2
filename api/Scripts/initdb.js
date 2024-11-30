@@ -30,9 +30,10 @@ async function storePokemon(dexNum, name, image) {
             "accept": "text/plain"
         }
     })
-    console.log(JSON.stringify({ id: dexNum, name: name, imageUrl: image }));
-    console.log(res.status);
-    console.log(res.statusText);
+    if (res.status != 201) {
+        console.log(res.status);
+        console.log(res.statusText);
+    }
 }
 
 async function main() {
