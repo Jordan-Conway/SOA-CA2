@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using api.Models;
+using api.DTOs;
 
 namespace api.Controllers
 {
@@ -29,7 +30,7 @@ namespace api.Controllers
 
         // GET: api/PokemonEntry/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<PokemonEntry>> GetPokemonEntry(int id)
+        public async Task<ActionResult<PokemonDTO>> GetPokemonEntry(int id)
         {
             var pokemonEntry = await _context.PokemonEntries.FindAsync(id);
 
@@ -38,12 +39,17 @@ namespace api.Controllers
                 return NotFound();
             }
 
-            return pokemonEntry;
+            var pokemonDTO = new PokemonDTO();
+            pokemonDTO.Id = pokemonEntry.Id;
+            pokemonDTO.Name = pokemonEntry.Name;
+            pokemonDTO.ImageUrl = pokemonEntry.ImageUrl;
+
+            return pokemonDTO;
         }
 
         //Get: api/PokemonEntry/random
         [HttpGet("random")]
-        public async Task<ActionResult<PokemonEntry>> GetRandomPokemonEntry()
+        public async Task<ActionResult<PokemonDTO>> GetRandomPokemonEntry()
         {
             const int MIN_ID = 1;
             const int MAX_ID = 1024;
@@ -57,7 +63,12 @@ namespace api.Controllers
                 return NotFound();
             }
 
-            return pokemonEntry;
+            var pokemonDTO = new PokemonDTO();
+            pokemonDTO.Id = pokemonEntry.Id;
+            pokemonDTO.Name = pokemonEntry.Name;
+            pokemonDTO.ImageUrl = pokemonEntry.ImageUrl;
+
+            return pokemonDTO;
         }
 
 
