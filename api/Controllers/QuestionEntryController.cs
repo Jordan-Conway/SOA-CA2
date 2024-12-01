@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using api.Models;
+using api.DTOs;
 
 namespace api.Controllers
 {
@@ -29,7 +30,7 @@ namespace api.Controllers
 
         // GET: api/QuestionEntry/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<QuestionEntry>> GetQuestionEntry(int id)
+        public async Task<ActionResult<QuestionDTO>> GetQuestionEntry(int id)
         {
             var questionEntry = await _context.PokemonEntries.FindAsync(id);
 
@@ -38,7 +39,12 @@ namespace api.Controllers
                 return NotFound();
             }
 
-            return questionEntry;
+            var questionDTO = new QuestionDTO();
+            questionDTO.Id = questionEntry.Id;
+            questionDTO.Question = questionEntry.Question;
+            questionDTO.CreatedBy = questionEntry.CreatedBy;
+
+            return questionDTO;
         }
 
         // PUT: api/QuestionEntry/5
