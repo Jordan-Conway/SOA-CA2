@@ -41,6 +41,26 @@ namespace api.Controllers
             return pokemonEntry;
         }
 
+        //Get: api/PokemonEntry/random
+        [HttpGet("random")]
+        public async Task<ActionResult<PokemonEntry>> GetRandomPokemonEntry()
+        {
+            const int MIN_ID = 1;
+            const int MAX_ID = 1024;
+
+            var random = new Random();
+            var id = random.Next(MIN_ID, MAX_ID + 1);
+            var pokemonEntry = await _context.PokemonEntries.FindAsync(id);
+
+            if (pokemonEntry == null)
+            {
+                return NotFound();
+            }
+
+            return pokemonEntry;
+        }
+
+
         // PUT: api/PokemonEntry/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
