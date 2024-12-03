@@ -5,21 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script src="./script.js"></script>
+    <link rel="stylesheet" href="styles.css"/>
   </head>
   <body>
-        <div class="pictures">
-            <div class="picture">
-                <img src="" id="picture1" disabled="true"/>
-            </div>
-            <div class="picture">
-                <img src="" id="picture2" disabled="true"/>
-            </div>
+    <div id="debug">
+      <button onclick="voteDebug()">Vote</button>
+      <button onclick="goBackDebug()">Go Back</button>
+    </div>
+    <div class="header">
+      <div class="title">
+        <p>Heading</p>
+      </div>
+      <div class="login">
+        <button id="loginButton">Login</button>
+      </div>
+    </div>
+    <dialog id="loginDialog" autoOpen="false">
+      <form method="dialog" id="loginForm">
+        <label>
+          <input type="text" placeholder="Username">
+        </label>
+        <label>
+          <input type="text" placeholder="Password">
+        </label>
+        <label>
+          <button>Submit</button>
+        </label>
+      </form>
+    </dialog>
+    <div id="questionPage">
+      <div class="question">
+        <p id="questionText">
+          Which of these Pokemon would make the best hat?
+        </p>
+      </div>
+      <div class="pictures">
+        <div class="picture">
+          <img src="" id="picture1" disabled="true" />
         </div>
-        <div class="question">
-
+        <div class="picture">
+          <img src="" id="picture2" disabled="true" />
         </div>
-        <div class="options">
-
-        </div>
+      </div>
+      <div class="options">
+        <button class="optionButton">
+          <p id="option1Text">Option 1</p>
+        </button>
+        <button class="optionButton">
+          <p id="option2Text">Option 2</p>
+        </button>
+      </div>
+    </div>
+    <div id="resultPage" style="display: none;">
+      <div id="resultSuccess">
+        <p id="messageSuccess">Your vote has been counted</p>
+      </div>
+      <div id="resultFailure" style="display: none;">
+        <p>Cause of Error goes here</p>
+      </div>
+    </div>
   </body>
 </html>
