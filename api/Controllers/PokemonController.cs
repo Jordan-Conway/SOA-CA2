@@ -11,27 +11,27 @@ namespace api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PokemonEntryController : ControllerBase
+    public class PokemonController : ControllerBase
     {
-        private readonly PokemonEntryContext _context;
+        private readonly AppDbContext _context;
 
-        public PokemonEntryController(PokemonEntryContext context)
+        public PokemonController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/PokemonEntry
+        // GET: api/Pokemon
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PokemonEntry>>> GetPokemonEntries()
+        public async Task<ActionResult<IEnumerable<PokemonEntry>>> GetPokemonEntry()
         {
-            return await _context.PokemonEntries.ToListAsync();
+            return await _context.PokemonEntry.ToListAsync();
         }
 
-        // GET: api/PokemonEntry/5
+        // GET: api/Pokemon/5
         [HttpGet("{id}")]
         public async Task<ActionResult<PokemonEntry>> GetPokemonEntry(int id)
         {
-            var pokemonEntry = await _context.PokemonEntries.FindAsync(id);
+            var pokemonEntry = await _context.PokemonEntry.FindAsync(id);
 
             if (pokemonEntry == null)
             {
@@ -41,7 +41,7 @@ namespace api.Controllers
             return pokemonEntry;
         }
 
-        // PUT: api/PokemonEntry/5
+        // PUT: api/Pokemon/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPokemonEntry(int id, PokemonEntry pokemonEntry)
@@ -72,28 +72,28 @@ namespace api.Controllers
             return NoContent();
         }
 
-        // POST: api/PokemonEntry
+        // POST: api/Pokemon
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<PokemonEntry>> PostPokemonEntry(PokemonEntry pokemonEntry)
         {
-            _context.PokemonEntries.Add(pokemonEntry);
+            _context.PokemonEntry.Add(pokemonEntry);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetPokemonEntry", new { id = pokemonEntry.Id }, pokemonEntry);
         }
 
-        // DELETE: api/PokemonEntry/5
+        // DELETE: api/Pokemon/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePokemonEntry(int id)
         {
-            var pokemonEntry = await _context.PokemonEntries.FindAsync(id);
+            var pokemonEntry = await _context.PokemonEntry.FindAsync(id);
             if (pokemonEntry == null)
             {
                 return NotFound();
             }
 
-            _context.PokemonEntries.Remove(pokemonEntry);
+            _context.PokemonEntry.Remove(pokemonEntry);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -101,7 +101,7 @@ namespace api.Controllers
 
         private bool PokemonEntryExists(int id)
         {
-            return _context.PokemonEntries.Any(e => e.Id == id);
+            return _context.PokemonEntry.Any(e => e.Id == id);
         }
     }
 }
