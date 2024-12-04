@@ -21,7 +21,7 @@ function makeUrl(dexNum) {
 
 async function storePokemon(dexNum, name, image) {
     process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
-    const url = 'https://localhost:7015/api/PokemonEntry';
+    const url = 'https://localhost:7015/api/Pokemon';
     const res = await fetch(url, {
         method: "POST",
         body: JSON.stringify({ id: dexNum, name: name, imageUrl: image }),

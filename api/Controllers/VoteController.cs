@@ -11,27 +11,27 @@ namespace api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class VoteEntryController : ControllerBase
+    public class VoteController : ControllerBase
     {
-        private readonly VoteEntryContext _context;
+        private readonly AppDbContext _context;
 
-        public VoteEntryController(VoteEntryContext context)
+        public VoteController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/VoteEntry
+        // GET: api/Vote
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<VoteEntry>>> GetPokemonEntries()
+        public async Task<ActionResult<IEnumerable<VoteEntry>>> GetVoteEntry()
         {
-            return await _context.PokemonEntries.ToListAsync();
+            return await _context.VoteEntry.ToListAsync();
         }
 
-        // GET: api/VoteEntry/5
+        // GET: api/Vote/5
         [HttpGet("{id}")]
         public async Task<ActionResult<VoteEntry>> GetVoteEntry(int id)
         {
-            var voteEntry = await _context.PokemonEntries.FindAsync(id);
+            var voteEntry = await _context.VoteEntry.FindAsync(id);
 
             if (voteEntry == null)
             {
@@ -41,7 +41,7 @@ namespace api.Controllers
             return voteEntry;
         }
 
-        // PUT: api/VoteEntry/5
+        // PUT: api/Vote/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutVoteEntry(int id, VoteEntry voteEntry)
@@ -72,12 +72,12 @@ namespace api.Controllers
             return NoContent();
         }
 
-        // POST: api/VoteEntry
+        // POST: api/Vote
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<VoteEntry>> PostVoteEntry(VoteEntry voteEntry)
         {
-            _context.PokemonEntries.Add(voteEntry);
+            _context.VoteEntry.Add(voteEntry);
             try
             {
                 await _context.SaveChangesAsync();
@@ -97,17 +97,17 @@ namespace api.Controllers
             return CreatedAtAction("GetVoteEntry", new { id = voteEntry.PokemonId }, voteEntry);
         }
 
-        // DELETE: api/VoteEntry/5
+        // DELETE: api/Vote/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteVoteEntry(int id)
         {
-            var voteEntry = await _context.PokemonEntries.FindAsync(id);
+            var voteEntry = await _context.VoteEntry.FindAsync(id);
             if (voteEntry == null)
             {
                 return NotFound();
             }
 
-            _context.PokemonEntries.Remove(voteEntry);
+            _context.VoteEntry.Remove(voteEntry);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -115,7 +115,7 @@ namespace api.Controllers
 
         private bool VoteEntryExists(int id)
         {
-            return _context.PokemonEntries.Any(e => e.PokemonId == id);
+            return _context.VoteEntry.Any(e => e.PokemonId == id);
         }
     }
 }

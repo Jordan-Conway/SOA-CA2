@@ -5,13 +5,13 @@
 namespace api.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class AppInitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "PokemonEntries",
+                name: "PokemonEntry",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -21,7 +21,7 @@ namespace api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PokemonEntries", x => x.Id);
+                    table.PrimaryKey("PK_PokemonEntry", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -42,19 +42,19 @@ namespace api.Migrations
                 name: "VoteEntry",
                 columns: table => new
                 {
-                    PokemonsId = table.Column<int>(type: "INTEGER", nullable: false),
-                    QuestionsId = table.Column<int>(type: "INTEGER", nullable: false),
                     PokemonId = table.Column<int>(type: "INTEGER", nullable: false),
                     QuestionId = table.Column<int>(type: "INTEGER", nullable: false),
-                    VoteCount = table.Column<int>(type: "INTEGER", nullable: false)
+                    VoteCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    PokemonsId = table.Column<int>(type: "INTEGER", nullable: false),
+                    QuestionsId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_VoteEntry", x => new { x.PokemonsId, x.QuestionsId });
+                    table.PrimaryKey("PK_VoteEntry", x => new { x.PokemonId, x.QuestionId });
                     table.ForeignKey(
-                        name: "FK_VoteEntry_PokemonEntries_PokemonsId",
+                        name: "FK_VoteEntry_PokemonEntry_PokemonsId",
                         column: x => x.PokemonsId,
-                        principalTable: "PokemonEntries",
+                        principalTable: "PokemonEntry",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -64,6 +64,11 @@ namespace api.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VoteEntry_PokemonsId",
+                table: "VoteEntry",
+                column: "PokemonsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_VoteEntry_QuestionsId",
@@ -78,7 +83,7 @@ namespace api.Migrations
                 name: "VoteEntry");
 
             migrationBuilder.DropTable(
-                name: "PokemonEntries");
+                name: "PokemonEntry");
 
             migrationBuilder.DropTable(
                 name: "QuestionEntry");

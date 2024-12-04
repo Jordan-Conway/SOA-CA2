@@ -7,9 +7,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 // Add services to the container.
 builder.Services.AddControllers();
-builder.Services.AddDbContext<PokemonEntryContext>(opt => opt.UseSqlite(connectionString));
-builder.Services.AddDbContext<QuestionEntryContext>(opt => opt.UseSqlite(connectionString));
-builder.Services.AddDbContext<VoteEntryContext>(opt => opt.UseSqlite(connectionString));
+builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlite(connectionString));
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 

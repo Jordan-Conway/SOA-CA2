@@ -11,27 +11,27 @@ namespace api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class QuestionEntryController : ControllerBase
+    public class QuestionController : ControllerBase
     {
-        private readonly QuestionEntryContext _context;
+        private readonly AppDbContext _context;
 
-        public QuestionEntryController(QuestionEntryContext context)
+        public QuestionController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/QuestionEntry
+        // GET: api/Question
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<QuestionEntry>>> GetPokemonEntries()
+        public async Task<ActionResult<IEnumerable<QuestionEntry>>> GetQuestionEntry()
         {
-            return await _context.PokemonEntries.ToListAsync();
+            return await _context.QuestionEntry.ToListAsync();
         }
 
-        // GET: api/QuestionEntry/5
+        // GET: api/Question/5
         [HttpGet("{id}")]
         public async Task<ActionResult<QuestionEntry>> GetQuestionEntry(int id)
         {
-            var questionEntry = await _context.PokemonEntries.FindAsync(id);
+            var questionEntry = await _context.QuestionEntry.FindAsync(id);
 
             if (questionEntry == null)
             {
@@ -41,7 +41,7 @@ namespace api.Controllers
             return questionEntry;
         }
 
-        // PUT: api/QuestionEntry/5
+        // PUT: api/Question/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutQuestionEntry(int id, QuestionEntry questionEntry)
@@ -72,28 +72,28 @@ namespace api.Controllers
             return NoContent();
         }
 
-        // POST: api/QuestionEntry
+        // POST: api/Question
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<QuestionEntry>> PostQuestionEntry(QuestionEntry questionEntry)
         {
-            _context.PokemonEntries.Add(questionEntry);
+            _context.QuestionEntry.Add(questionEntry);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetQuestionEntry", new { id = questionEntry.Id }, questionEntry);
         }
 
-        // DELETE: api/QuestionEntry/5
+        // DELETE: api/Question/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteQuestionEntry(int id)
         {
-            var questionEntry = await _context.PokemonEntries.FindAsync(id);
+            var questionEntry = await _context.QuestionEntry.FindAsync(id);
             if (questionEntry == null)
             {
                 return NotFound();
             }
 
-            _context.PokemonEntries.Remove(questionEntry);
+            _context.QuestionEntry.Remove(questionEntry);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -101,7 +101,7 @@ namespace api.Controllers
 
         private bool QuestionEntryExists(int id)
         {
-            return _context.PokemonEntries.Any(e => e.Id == id);
+            return _context.QuestionEntry.Any(e => e.Id == id);
         }
     }
 }
