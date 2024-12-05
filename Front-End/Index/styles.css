@@ -125,16 +125,37 @@ body {
     margin: 0;
 }
 
-#loginDialog > form
+#loginDialog
 {
-    display: flex;
-    flex-direction: column;
-    align-content: center;
+    height: 35%;
+    width: 35%;
+    border-radius: 25px;
+    background-color: #5A5A5A;
 }
 
-#loginDialog > label
+#loginForm
 {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#loginForm > label
+{
+    height: 50%;
+    width: 100%;
     margin-bottom: 10px;
+}
+
+#loginForm > label > input
+{
+    width: 70%;
+}
+
+#submit
+{
+    text-align: center;
 }
 
 #loginDialog :last-child
