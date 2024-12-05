@@ -58,15 +58,21 @@ function voteDebug(): void {
 function goBackDebug(): void {
     let optionPage = document.getElementById("optionsPage")
     let resultPage = document.getElementById("resultPage")
-
-    if(optionPage == undefined || resultPage == undefined)
-    {
-        console.log("Could not find page")
-        return
-    }
+    let questionPage = document.getElementById("questionPage")
+    let createQuestionPage = document.getElementById("createQuestionPage")
 
     optionPage.setAttribute('style', '')
     resultPage.setAttribute('style', 'display:none')
+    questionPage.setAttribute('style', '')
+    createQuestionPage.setAttribute('style', 'display:none')
+}
+
+function createQuestionDebug(): void {
+    let questionPage = document.getElementById("questionPage")
+    let createQuestionPage = document.getElementById("createQuestionPage")
+
+    questionPage.setAttribute("style", "display:none")
+    createQuestionPage.setAttribute("style", "display:''")
 }
 
 function toggleLogin(): void {
