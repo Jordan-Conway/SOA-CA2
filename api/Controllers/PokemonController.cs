@@ -64,37 +64,6 @@ namespace api.Controllers
             return new PokemonDTO(pokemonEntry.Id, pokemonEntry.Name, pokemonEntry.ImageUrl);
         }
 
-        // PUT: api/Pokemon/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutPokemonEntry(int id, PokemonEntry pokemonEntry)
-        {
-            if (id != pokemonEntry.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(pokemonEntry).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PokemonEntryExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
         // POST: api/Pokemon
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
@@ -104,22 +73,6 @@ namespace api.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetPokemonEntry", new { id = pokemonEntry.Id }, pokemonEntry);
-        }
-
-        // DELETE: api/Pokemon/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePokemonEntry(int id)
-        {
-            var pokemonEntry = await _context.PokemonEntry.FindAsync(id);
-            if (pokemonEntry == null)
-            {
-                return NotFound();
-            }
-
-            _context.PokemonEntry.Remove(pokemonEntry);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
 
         private bool PokemonEntryExists(int id)
