@@ -22,9 +22,15 @@ namespace api.Controllers
 
         // GET: api/Pokemon
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PokemonEntry>>> GetPokemonEntry()
+        public async Task<ActionResult<IEnumerable<PokemonDTO>>> GetPokemonEntry()
         {
-            return await _context.PokemonEntry.ToListAsync();
+            var pokemonResultList = await _context.PokemonEntry.ToListAsync();
+            var pokemonList = new List<PokemonDTO>();
+            pokemonResultList.ForEach(pokemon =>
+            {
+                pokemonList.Add(new PokemonDTO(pokemon.Id, pokemon.Name, pokemon.ImageUrl));
+            });
+            return pokemonList;
         }
 
         // GET: api/Pokemon/5
