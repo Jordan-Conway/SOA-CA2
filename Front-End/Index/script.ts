@@ -42,30 +42,30 @@ async function getQuestion(): Promise<Data> {
 }
 
 function voteDebug(): void {
-    let questionPage = document.getElementById("questionPage")
+    let optionPage = document.getElementById("optionsPage")
     let resultPage = document.getElementById("resultPage")
 
-    if(questionPage == undefined || resultPage == undefined)
+    if(optionPage == undefined || resultPage == undefined)
     {
         console.log("Could not find page")
         return
     }
 
-    questionPage.setAttribute('style', 'display:none')
+    optionPage.setAttribute('style', 'display:none')
     resultPage.setAttribute('style', '')
 }
 
 function goBackDebug(): void {
-    let questionPage = document.getElementById("questionPage")
+    let optionPage = document.getElementById("optionsPage")
     let resultPage = document.getElementById("resultPage")
 
-    if(questionPage == undefined || resultPage == undefined)
+    if(optionPage == undefined || resultPage == undefined)
     {
         console.log("Could not find page")
         return
     }
 
-    questionPage.setAttribute('style', '')
+    optionPage.setAttribute('style', '')
     resultPage.setAttribute('style', 'display:none')
 }
 

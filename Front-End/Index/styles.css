@@ -107,11 +107,6 @@ body {
     background-color: rgb(48, 3, 80);
 }
 
-#resultPage
-{
-    height: 100%;
-}
-
 #resultPage > div
 {
     height: 100%;
@@ -127,6 +122,7 @@ body {
 {
     text-align: center;
     font-size: 75px;
+    margin: 0;
 }
 
 #loginDialog > form
