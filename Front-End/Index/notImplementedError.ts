@@ -6,3 +6,5 @@ class NotImplementedError extends Error
         this.name = "NotImplementedError"
     }
 }
+
+export {NotImplementedError}
