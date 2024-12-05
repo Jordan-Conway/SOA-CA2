@@ -35,7 +35,7 @@ namespace api.Controllers
 
         // GET: api/Pokemon/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<PokemonEntry>> GetPokemonEntry(int id)
+        public async Task<ActionResult<PokemonDTO>> GetPokemonEntry(int id)
         {
             var pokemonEntry = await _context.PokemonEntry.FindAsync(id);
 
@@ -44,7 +44,7 @@ namespace api.Controllers
                 return NotFound();
             }
 
-            return pokemonEntry;
+            return new PokemonDTO(pokemonEntry.Id, pokemonEntry.Name, pokemonEntry.ImageUrl);
         }
 
         // PUT: api/Pokemon/5
