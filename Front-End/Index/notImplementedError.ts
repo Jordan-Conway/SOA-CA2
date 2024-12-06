@@ -1,4 +1,4 @@
-class NotImplementedError extends Error
+export class NotImplementedError extends Error
 {
     constructor(message)
     {
@@ -6,5 +6,3 @@ class NotImplementedError extends Error
         this.name = "NotImplementedError"
     }
 }
-
-export {NotImplementedError}

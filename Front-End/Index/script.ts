@@ -1,5 +1,11 @@
+import { NotImplementedError } from "./notImplementedError.js"
+
+export {load, loadImages, vote, getQuestion, addQuestion}
+export {voteDebug, goBackDebug, createQuestionDebug}
+
 let loginButton: Element
 let loginModal: HTMLDialogElement
+let createQuestionForm: HTMLFormElement
 
 let image1: Element
 let image2: Element
@@ -15,6 +21,7 @@ function load()
 {
     loginButton = document.getElementById("loginButton")
     loginModal = document.getElementById("loginDialog") as HTMLDialogElement
+    createQuestionForm = document.getElementById("questionForm") as HTMLFormElement
 
     image1 = document.getElementById("picture1")
     image2 = document.getElementById("picture2")
@@ -23,6 +30,12 @@ function load()
 
     loginButton.addEventListener("click", () => {
         loginModal.showModal()
+    })
+
+    createQuestionForm.addEventListener("submit", (e) => {
+        e.preventDefault()
+        let textInput = document.getElementById("questionText") as HTMLInputElement
+        addQuestion(textInput.value)
     })
 }
 
@@ -77,6 +90,11 @@ function createQuestionDebug(): void {
 
 function toggleLogin(): void {
     
+}
+
+function addQuestion(questionText: string)
+{
+    throw new NotImplementedError("addQuestion() is not implemented")
 }
 
 interface Picture {
