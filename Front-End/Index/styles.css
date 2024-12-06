@@ -134,7 +134,7 @@ body {
     background-color: #5A5A5A;
 }
 
-#loginForm
+.loginForm
 {
     height: 100%;
     width: 100%;
@@ -142,14 +142,14 @@ body {
     flex-direction: column;
 }
 
-#loginForm > label
+.loginForm > label
 {
     height: 50%;
     width: 100%;
     margin-bottom: 10px;
 }
 
-#loginForm > label > input
+.loginForm > label > input
 {
     width: 70%;
 }
@@ -159,7 +159,7 @@ body {
     text-align: center;
 }
 
-#loginDialog :last-child
+#loginDialog > div :last-child
 {
     align-self: flex-end;
 }

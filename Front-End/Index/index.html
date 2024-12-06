@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pokevotes</title>
-    <script type="module" src="./script.js"></script>
+    <script src="./script.js"></script>
     <link rel="stylesheet" href="styles.css"/>
   </head>
   <body>
@@ -22,17 +22,37 @@
       </div>
     </div>
     <dialog id="loginDialog" autoOpen="false">
-      <form method="dialog" id="loginForm">
-        <label>
-          <input type="text" placeholder="Username">
-        </label>
-        <label>
-          <input type="text" placeholder="Password">
-        </label>
-        <label id="submit">
-          <button>Submit</button>
-        </label>
-      </form>
+      <div id="loginForm" style="display:''">
+        <form method="dialog" class="loginForm">
+          <label>
+            <input type="text" placeholder="Username">
+          </label>
+          <label>
+            <input type="text" placeholder="Password">
+          </label>
+          <label id="submit">
+            <button>Login</button>
+          </label>
+        </form>
+        <button onclick="toggleRegister()">Click here to register</button>
+      </div>
+      <div id="registerForm" style="display:none">
+        <form method="dialog" class="loginForm">
+          <label>
+            <input type="text" placeholder="Username">
+          </label>
+          <label>
+            <input type="text" placeholder="Password">
+          </label>
+          <label>
+            <input type="text" placeholder="Repeat Password">
+          </label>
+          <label id="submit">
+            <button>Register</button>
+          </label>
+        </form>
+        <button onclick="toggleRegister()">Click here to login</button>
+      </div>
     </dialog>
     <div id="questionPage">
       <div class="question">

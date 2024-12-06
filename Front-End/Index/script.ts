@@ -1,8 +1,3 @@
-import { NotImplementedError } from "./notImplementedError.js"
-
-export {load, loadImages, vote, getQuestion, addQuestion}
-export {voteDebug, goBackDebug, createQuestionDebug}
-
 let loginButton: Element
 let loginModal: HTMLDialogElement
 let createQuestionForm: HTMLFormElement
@@ -97,6 +92,22 @@ function addQuestion(questionText: string)
     throw new NotImplementedError("addQuestion() is not implemented")
 }
 
+function toggleRegister(): void {
+    let loginForm = document.getElementById("loginForm")
+    let registerForm = document.getElementById("registerForm")
+
+    if(loginForm.getAttribute('style') === "display:''")
+    {
+        loginForm.setAttribute('style', 'display:none')
+        registerForm.setAttribute('style', '')
+    }
+    else
+    {
+        registerForm.setAttribute('style', 'display:none')
+        loginForm.setAttribute('style', '')
+    }
+}
+
 interface Picture {
     id: string,
     name: string,
@@ -112,4 +123,13 @@ interface Data{
     picture1: Picture,
     picture2: Picture,
     question: Question
+}
+
+class NotImplementedError extends Error
+{
+    constructor(message)
+    {
+        super(message)
+        this.name = "NotImplementedError"
+    }
 }
