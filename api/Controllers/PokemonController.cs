@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using api.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
+using api.DrivenAdapters.DatabaseApaters;
 
 namespace api.Controllers
 {
@@ -13,95 +15,34 @@ namespace api.Controllers
     [ApiController]
     public class PokemonController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly SqliteAdapter sqliteAdapter;
 
         public PokemonController(AppDbContext context)
         {
-            _context = context;
+            sqliteAdapter = new SqliteAdapter(context);
         }
 
-        // GET: api/Pokemon
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<PokemonEntry>>> GetPokemonEntry()
+        [HttpGet("random")]
+        public async Task<ActionResult<PokemonDTO>> GetRandomPokemonEntry()
         {
-            return await _context.PokemonEntry.ToListAsync();
+            var pokemon = await sqliteAdapter.GetRandomPokemon();
+
+            if (pokemon == null)
+            {
+                return StatusCode(500);
+            }
+
+            return pokemon;
         }
 
-        // GET: api/Pokemon/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<PokemonEntry>> GetPokemonEntry(int id)
-        {
-            var pokemonEntry = await _context.PokemonEntry.FindAsync(id);
-
-            if (pokemonEntry == null)
-            {
-                return NotFound();
-            }
-
-            return pokemonEntry;
-        }
-
-        // PUT: api/Pokemon/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutPokemonEntry(int id, PokemonEntry pokemonEntry)
-        {
-            if (id != pokemonEntry.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(pokemonEntry).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PokemonEntryExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
+        // Used to construct the database.
         // POST: api/Pokemon
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<PokemonEntry>> PostPokemonEntry(PokemonEntry pokemonEntry)
+        public async Task<ActionResult<PokemonDTO>> PostPokemonEntry(PokemonDTO pokemon)
         {
-            _context.PokemonEntry.Add(pokemonEntry);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetPokemonEntry", new { id = pokemonEntry.Id }, pokemonEntry);
-        }
-
-        // DELETE: api/Pokemon/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePokemonEntry(int id)
-        {
-            var pokemonEntry = await _context.PokemonEntry.FindAsync(id);
-            if (pokemonEntry == null)
-            {
-                return NotFound();
-            }
-
-            _context.PokemonEntry.Remove(pokemonEntry);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool PokemonEntryExists(int id)
-        {
-            return _context.PokemonEntry.Any(e => e.Id == id);
+            await sqliteAdapter.CreatePokemon(pokemon);
+            return CreatedAtAction("GetPokemonEntry", new { id = pokemon.Id }, pokemon);
         }
     }
 }

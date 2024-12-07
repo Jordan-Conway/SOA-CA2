@@ -1,12 +1,12 @@
 namespace api.Models;
 
-public class QuestionEntry
+public class QuestionDTO
 {
     public int Id { get; set; }
     public string? Question { get; set; }
     public string? CreatedBy { get; set; }
 
-    public QuestionEntry(int id, string question, string createdBy)
+    public QuestionDTO(int id, string question, string createdBy)
     {
         this.Id = id;
         this.Question = question;

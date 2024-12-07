@@ -9,20 +9,11 @@ public class AppDbContext : DbContext
     public required DbSet<PokemonEntry> PokemonEntry { get; set; }
     public required DbSet<QuestionEntry> QuestionEntry { get; set; }
     public required DbSet<VoteEntry> VoteEntry { get; set; }
+    public required DbSet<UserEntry> UserEntry { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<PokemonEntry>()
-            .HasMany(e => e.Questions)
-            .WithMany(e => e.Pokemons)
-            .UsingEntity<VoteEntry>();
-
-        modelBuilder.Entity<QuestionEntry>()
-            .HasMany(e => e.Pokemons)
-            .WithMany(e => e.Questions)
-            .UsingEntity<VoteEntry>();
-
         modelBuilder.Entity<VoteEntry>()
-            .HasKey(e => new { e.PokemonId, e.QuestionId });
+                .HasKey(e => new { e.PokemonId, e.QuestionId });
     }
 }
