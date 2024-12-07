@@ -82,4 +82,35 @@ public class SqliteAdapter : IDatabaseAdapter
         context.QuestionEntry.Remove(questionEntry);
         await context.SaveChangesAsync();
     }
+
+    public async Task CastVote(int pokemonId, int questionId)
+    {
+        var voteEntry = await context.VoteEntry.FindAsync(pokemonId, questionId);
+
+        if (voteEntry == null)
+        {
+            var pokemonEntry = await context.PokemonEntry.FindAsync(pokemonId);
+            var questionEntry = await context.QuestionEntry.FindAsync(questionId);
+
+            if (pokemonEntry == null || questionEntry == null)
+            {
+                return;
+            }
+
+            voteEntry = new VoteEntry();
+            voteEntry.PokemonId = pokemonId;
+            voteEntry.QuestionId = questionId;
+            voteEntry.VoteCount = 1;
+
+            context.VoteEntry.Add(voteEntry);
+            await context.SaveChangesAsync();
+            return;
+        }
+
+        voteEntry.VoteCount += 1;
+        context.Entry(voteEntry).State = EntityState.Modified;
+
+        context.VoteEntry.Update(voteEntry);
+        await context.SaveChangesAsync();
+    }
 }
