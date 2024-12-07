@@ -28,7 +28,7 @@ namespace api.Controllers
             await sqliteAdapter.CastVote(vote.PokemonId, vote.QuestionId);
         }
 
-        [HttpGet("results")]
+        [HttpGet("results/{id}")]
         public async Task<ActionResult<ResultDTO>> GetResults(int questionId)
         {
             var results = await sqliteAdapter.GetResults(questionId);
