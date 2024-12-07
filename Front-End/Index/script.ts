@@ -1,11 +1,16 @@
+let apiUrl = "https://localhost:7015/api/"
+
 let loginButton: Element
 let loginModal: HTMLDialogElement
 let createQuestionForm: HTMLFormElement
 
-let image1: Element
-let image2: Element
-let image1Url: string = "../Images/1.jpeg"
-let image2Url: string = "../Images/2.jpeg"
+let imageElement1: Element
+let imageElement2: Element
+let image1: Picture
+let image2: Picture
+
+let voteButton1: Element
+let voteButton2: Element
 
 document.addEventListener('DOMContentLoaded', function() {
     load()
@@ -18,8 +23,11 @@ function load()
     loginModal = document.getElementById("loginDialog") as HTMLDialogElement
     createQuestionForm = document.getElementById("questionForm") as HTMLFormElement
 
-    image1 = document.getElementById("picture1")
-    image2 = document.getElementById("picture2")
+    imageElement1 = document.getElementById("picture1")
+    imageElement2 = document.getElementById("picture2")
+
+    voteButton1 = document.getElementById("vote1")
+    voteButton2 = document.getElementById("vote2")
 
     loginModal.close()
 
@@ -34,18 +42,66 @@ function load()
     })
 }
 
-function loadImages()
+async function loadImages()
 {
-    image1.setAttribute("src", image1Url)
-    image2.setAttribute("src", image2Url)
+    refeshImages()
+
+    voteButton1.addEventListener('click', function(e) 
+    {
+        vote(image1.id, "1")
+    })
+    voteButton2.addEventListener('click', function(e) 
+    {
+        vote(image2.id, "1")
+    })
+}
+
+async function refeshImages()
+{
+    let pokemon1 = await getPokemon()
+    let pokemon2 = await getPokemon()
+    image1 = pokemon1
+    image2 = pokemon2
+
+    imageElement1.setAttribute("src", image1.imageUrl)
+    imageElement2.setAttribute("src", image2.imageUrl)
 }
 
 async function vote(choiceId: string, questionId: string): Promise<Boolean> {
-    throw new NotImplementedError("vote() is not implemented")
+    let url = apiUrl + "Vote/cast/"
+    let questionIdNum: number = Number(questionId)
+
+    if(Number.isNaN(questionIdNum))
+    {
+        console.error("Invalid questionId: " + questionId)
+    }
+    
+    fetch(url, {
+        method: "POST",
+        headers:{
+            'Content-Type': "application/json"
+        },
+        body: JSON.stringify({
+                "PokemonId": choiceId,
+                "QuestionId": questionIdNum,
+        })
+    })
+
+    console.log("Voted for: " + choiceId)
+    refeshImages()
     return true
 }
 
-async function getQuestion(): Promise<Data> {
+//https://stackoverflow.com/a/60166572
+async function getPokemon(): Promise<Picture> {
+    let url = apiUrl + "Pokemon/random"
+    
+    return fetch(url)
+        .then((res) => res.json())
+        .then((res) => {return res as Promise<Picture>})
+}
+
+async function getQuestion(): Promise<Question> {
     throw new NotImplementedError("getQuestion() is not implemented")
 }
 
@@ -111,7 +167,7 @@ function toggleRegister(): void {
 interface Picture {
     id: string,
     name: string,
-    url: string,
+    imageUrl: string,
 }
 
 interface Question {

@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using api.Models;
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -12,6 +14,16 @@ builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlite(connectionStrin
 builder.Services.AddOpenApi();
 
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("*");
+                          policy.WithHeaders("*");
+                      });
+});
 
 var app = builder.Build();
 
@@ -27,6 +39,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseSwagger();
 app.UseSwaggerUI(c =>
