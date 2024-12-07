@@ -9,4 +9,7 @@ public interface IDatabaseAdapter
     Task<ActionResult<PokemonDTO>> GetRandomPokemon();
 
     Task<ActionResult<QuestionDTO>> CreateQuestion(QuestionDTO question);
+    Task<ActionResult<QuestionDTO>> GetQuestion(int id);
+    Task<ActionResult<QuestionDTO>> GetRandomQuestion();
+    Task DeleteQuestion(int id);
 }

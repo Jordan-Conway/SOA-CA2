@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using api.Models;
+using api.DrivenAdapters.DatabaseApaters;
 
 namespace api.Controllers
 {
@@ -13,95 +14,55 @@ namespace api.Controllers
     [ApiController]
     public class QuestionController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly SqliteAdapter sqlite;
 
         public QuestionController(AppDbContext context)
         {
-            _context = context;
-        }
-
-        // GET: api/Question
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<QuestionEntry>>> GetQuestionEntry()
-        {
-            return await _context.QuestionEntry.ToListAsync();
+            sqlite = new SqliteAdapter(context);
         }
 
         // GET: api/Question/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<QuestionEntry>> GetQuestionEntry(int id)
+        public async Task<ActionResult<QuestionDTO>> GetQuestionEntry(int id)
         {
-            var questionEntry = await _context.QuestionEntry.FindAsync(id);
+            var question = await sqlite.GetQuestion(id);
 
-            if (questionEntry == null)
+            if (question == null)
             {
                 return NotFound();
             }
 
-            return questionEntry;
+            return question;
         }
 
-        // PUT: api/Question/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutQuestionEntry(int id, QuestionEntry questionEntry)
+        // GET: api/Question/5
+        [HttpGet("random")]
+        public async Task<ActionResult<QuestionDTO>> GetQuestionEntry()
         {
-            if (id != questionEntry.Id)
+            var question = await sqlite.GetRandomQuestion();
+
+            if (question == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            _context.Entry(questionEntry).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!QuestionEntryExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return question;
         }
 
         // POST: api/Question
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<QuestionEntry>> PostQuestionEntry(QuestionEntry questionEntry)
+        public async Task<ActionResult<QuestionDTO>> PostQuestionEntry(QuestionDTO question)
         {
-            _context.QuestionEntry.Add(questionEntry);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetQuestionEntry", new { id = questionEntry.Id }, questionEntry);
+            await sqlite.CreateQuestion(question);
+            return CreatedAtAction("GetQuestionEntry", new { id = question.Id }, question);
         }
 
         // DELETE: api/Question/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteQuestionEntry(int id)
+        public async Task DeleteQuestionEntry(int id)
         {
-            var questionEntry = await _context.QuestionEntry.FindAsync(id);
-            if (questionEntry == null)
-            {
-                return NotFound();
-            }
-
-            _context.QuestionEntry.Remove(questionEntry);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool QuestionEntryExists(int id)
-        {
-            return _context.QuestionEntry.Any(e => e.Id == id);
+            await sqlite.DeleteQuestion(id);
         }
     }
 }

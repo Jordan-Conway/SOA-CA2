@@ -41,8 +41,8 @@ namespace api.Controllers
         [HttpPost]
         public async Task<ActionResult<PokemonDTO>> PostPokemonEntry(PokemonDTO pokemon)
         {
-            var pokemonResult = sqliteAdapter.CreatePokemon(pokemon);
-            return CreatedAtAction("GetPokemonEntry", new { id = pokemonResult.Id }, pokemonResult);
+            await sqliteAdapter.CreatePokemon(pokemon);
+            return CreatedAtAction("GetPokemonEntry", new { id = pokemon.Id }, pokemon);
         }
     }
 }
