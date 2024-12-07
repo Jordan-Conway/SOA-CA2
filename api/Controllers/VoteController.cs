@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using api.Models;
 using api.DrivenAdapters.DatabaseApaters;
+using Microsoft.IdentityModel.Tokens;
 
 namespace api.Controllers
 {
@@ -25,6 +26,19 @@ namespace api.Controllers
         public async Task CastVote(VoteDTO vote)
         {
             await sqliteAdapter.CastVote(vote.PokemonId, vote.QuestionId);
+        }
+
+        [HttpGet("results")]
+        public async Task<ActionResult<ResultDTO>> GetResults(int questionId)
+        {
+            var results = await sqliteAdapter.GetResults(questionId);
+
+            if (results == null || results.Value.Results.IsNullOrEmpty())
+            {
+                return NotFound();
+            }
+
+            return results;
         }
     }
 }
