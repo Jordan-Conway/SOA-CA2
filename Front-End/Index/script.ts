@@ -61,7 +61,7 @@ async function loadImages()
 
 async function loadQuestion() {
     let question = await getQuestion()
-    console.log(question.question)
+    console.log(question)
     questionText.innerText = question.question
 }
 
@@ -91,7 +91,7 @@ async function vote(choiceId: string, questionId: string): Promise<Boolean> {
             'Content-Type': "application/json"
         },
         body: JSON.stringify({
-                "PokemonId": choiceId,
+                "PokemonId": Number(choiceId),
                 "QuestionId": questionIdNum,
         })
     })
