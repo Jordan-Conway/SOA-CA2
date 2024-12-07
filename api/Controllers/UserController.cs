@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using api.Models;
+using BCrypt.Net;
 
 namespace api.Controllers
 {
@@ -51,6 +52,8 @@ namespace api.Controllers
                 return BadRequest();
             }
 
+            userEntry.HashedPassword = BCrypt.Net.BCrypt.HashPassword(userEntry.HashedPassword);
+
             _context.Entry(userEntry).State = EntityState.Modified;
 
             try
@@ -77,6 +80,8 @@ namespace api.Controllers
         [HttpPost]
         public async Task<ActionResult<UserEntry>> PostUserEntry(UserEntry userEntry)
         {
+            userEntry.HashedPassword = BCrypt.Net.BCrypt.HashPassword(userEntry.HashedPassword);
+
             _context.UserEntry.Add(userEntry);
             await _context.SaveChangesAsync();
 
