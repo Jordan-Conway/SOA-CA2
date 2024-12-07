@@ -9,6 +9,9 @@ let imageElement2: Element
 let image1: Picture
 let image2: Picture
 
+let voteButton1: Element
+let voteButton2: Element
+
 document.addEventListener('DOMContentLoaded', function() {
     load()
     loadImages()
@@ -22,6 +25,9 @@ function load()
 
     imageElement1 = document.getElementById("picture1")
     imageElement2 = document.getElementById("picture2")
+
+    voteButton1 = document.getElementById("vote1")
+    voteButton2 = document.getElementById("vote2")
 
     loginModal.close()
 
@@ -38,6 +44,20 @@ function load()
 
 async function loadImages()
 {
+    refeshImages()
+
+    voteButton1.addEventListener('click', function(e) 
+    {
+        vote(image1.id, "1")
+    })
+    voteButton2.addEventListener('click', function(e) 
+    {
+        vote(image2.id, "1")
+    })
+}
+
+async function refeshImages()
+{
     let pokemon1 = await getPokemon()
     let pokemon2 = await getPokemon()
     image1 = pokemon1
@@ -48,7 +68,27 @@ async function loadImages()
 }
 
 async function vote(choiceId: string, questionId: string): Promise<Boolean> {
-    throw new NotImplementedError("vote() is not implemented")
+    let url = apiUrl + "Vote/cast/"
+    let questionIdNum: number = Number(questionId)
+
+    if(Number.isNaN(questionIdNum))
+    {
+        console.error("Invalid questionId: " + questionId)
+    }
+    
+    fetch(url, {
+        method: "POST",
+        headers:{
+            'Content-Type': "application/json"
+        },
+        body: JSON.stringify({
+                "PokemonId": choiceId,
+                "QuestionId": questionIdNum,
+        })
+    })
+
+    console.log("Voted for: " + choiceId)
+    refeshImages()
     return true
 }
 
