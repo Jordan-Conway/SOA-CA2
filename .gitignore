@@ -396,3 +396,7 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+Front-End/Index/*.js
+Front-End/Index/*.js.map
+Front-End/Images/
