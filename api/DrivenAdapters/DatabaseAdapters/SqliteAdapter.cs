@@ -22,7 +22,7 @@ public class SqliteAdapter : IDatabaseAdapter
         return pokemon;
     }
 
-    public async Task<ActionResult<PokemonDTO>> getRandomPokemon()
+    public async Task<ActionResult<PokemonDTO>> GetRandomPokemon()
     {
         var random = new Random();
         var pokemonEntry = await context.PokemonEntry.FindAsync(random.Next(POKEMON_MIN_ID, POKEMON_MAX_ID + 1));
@@ -33,5 +33,14 @@ public class SqliteAdapter : IDatabaseAdapter
         }
 
         return new PokemonDTO(pokemonEntry.Id, pokemonEntry.Name, pokemonEntry.ImageUrl);
+    }
+
+    public async Task<ActionResult<QuestionDTO>> CreateQuestion(QuestionDTO question)
+    {
+        var questionEntry = new QuestionEntry(question.Id, question.Question, question.CreatedBy);
+        context.QuestionEntry.Add(questionEntry);
+        await context.SaveChangesAsync();
+
+        return question;
     }
 }
