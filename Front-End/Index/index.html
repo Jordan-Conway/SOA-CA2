@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pokevotes</title>
     <script src="./script.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="65470744582-upsg0evk8ah12nbp2v23s0mmp85n5qh0.apps.googleusercontent.com">
     <link rel="stylesheet" href="styles.css"/>
   </head>
   <body>
@@ -22,37 +24,7 @@
       </div>
     </div>
     <dialog id="loginDialog" autoOpen="false">
-      <div id="loginForm" style="display:''">
-        <form method="dialog" class="loginForm">
-          <label>
-            <input type="text" placeholder="Username">
-          </label>
-          <label>
-            <input type="text" placeholder="Password">
-          </label>
-          <label id="submit">
-            <button>Login</button>
-          </label>
-        </form>
-        <button onclick="toggleRegister()">Click here to register</button>
-      </div>
-      <div id="registerForm" style="display:none">
-        <form method="dialog" class="loginForm">
-          <label>
-            <input type="text" placeholder="Username">
-          </label>
-          <label>
-            <input type="text" placeholder="Password">
-          </label>
-          <label>
-            <input type="text" placeholder="Repeat Password">
-          </label>
-          <label id="submit">
-            <button>Register</button>
-          </label>
-        </form>
-        <button onclick="toggleRegister()">Click here to login</button>
-      </div>
+      <div class="g-signin2" data-onsuccess="onSignIn"></div>
     </dialog>
     <div id="questionPage">
       <div class="question">
