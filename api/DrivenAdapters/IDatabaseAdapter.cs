@@ -14,4 +14,5 @@ public interface IDatabaseAdapter
     Task DeleteQuestion(int id);
 
     Task CastVote(int pokemonId, int questionId);
+    Task<ActionResult<ResultDTO>> GetResults(int questionId);
 }

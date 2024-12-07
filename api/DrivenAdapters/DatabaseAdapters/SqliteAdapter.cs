@@ -113,4 +113,24 @@ public class SqliteAdapter : IDatabaseAdapter
         context.VoteEntry.Update(voteEntry);
         await context.SaveChangesAsync();
     }
+
+    public async Task<ActionResult<ResultDTO>> GetResults(int questionId)
+    {
+        var votes = await context.VoteEntry.ToListAsync();
+        var filterVotes = votes.Where(res => res.QuestionId == questionId);
+
+        var pokemons = await context.PokemonEntry.ToListAsync();
+
+        List<ResultItem> items = [];
+        foreach (var vote in filterVotes)
+        {
+            var pokemon = pokemons.Where(poke => poke.Id == vote.PokemonId).First();
+            var resultItem = new ResultItem(pokemon.Name, pokemon.ImageUrl, vote.VoteCount);
+            items.Add(resultItem);
+        }
+
+        var question = await context.QuestionEntry.FindAsync(questionId);
+
+        return new ResultDTO(question.Question, items);
+    }
 }
