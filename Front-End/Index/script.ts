@@ -3,6 +3,7 @@ let apiUrl = "https://localhost:7015/api/"
 let loginButton: Element
 let loginModal: HTMLDialogElement
 let createQuestionForm: HTMLFormElement
+let questionText: HTMLParagraphElement
 
 let imageElement1: Element
 let imageElement2: Element
@@ -15,6 +16,7 @@ let voteButton2: Element
 document.addEventListener('DOMContentLoaded', function() {
     load()
     loadImages()
+    loadQuestion()
  }, false);
 
 function load()
@@ -22,6 +24,7 @@ function load()
     loginButton = document.getElementById("loginButton")
     loginModal = document.getElementById("loginDialog") as HTMLDialogElement
     createQuestionForm = document.getElementById("questionForm") as HTMLFormElement
+    questionText = document.getElementById("questionText") as HTMLParagraphElement
 
     imageElement1 = document.getElementById("picture1")
     imageElement2 = document.getElementById("picture2")
@@ -38,7 +41,7 @@ function load()
     createQuestionForm.addEventListener("submit", (e) => {
         e.preventDefault()
         let textInput = document.getElementById("questionText") as HTMLInputElement
-        addQuestion(textInput.value)
+        submitQuestion(textInput.value)
     })
 }
 
@@ -54,6 +57,12 @@ async function loadImages()
     {
         vote(image2.id, "1")
     })
+}
+
+async function loadQuestion() {
+    let question = await getQuestion()
+    console.log(question.question)
+    questionText.innerText = question.question
 }
 
 async function refeshImages()
@@ -102,7 +111,28 @@ async function getPokemon(): Promise<Picture> {
 }
 
 async function getQuestion(): Promise<Question> {
-    throw new NotImplementedError("getQuestion() is not implemented")
+    let url = apiUrl + "Question/random"
+    return fetch(url)
+        .then(res => res.json())
+        .then(res => {return res})
+}
+
+async function submitQuestion(text: string): Promise<Boolean>
+{
+    let url = apiUrl + "Question"
+
+    fetch(url, {
+        method: "POST",
+        headers:{
+            'Content-Type': "application/json"
+        },
+        body: JSON.stringify({
+            "Question": text,
+            "CreatedBy": "TEST"
+        })
+    })
+
+    return true
 }
 
 function voteDebug(): void {
@@ -143,11 +173,6 @@ function toggleLogin(): void {
     
 }
 
-function addQuestion(questionText: string)
-{
-    throw new NotImplementedError("addQuestion() is not implemented")
-}
-
 function toggleRegister(): void {
     let loginForm = document.getElementById("loginForm")
     let registerForm = document.getElementById("registerForm")
@@ -172,7 +197,7 @@ interface Picture {
 
 interface Question {
     id: string,
-    text: string
+    question: string
 }
 
 interface Data{
