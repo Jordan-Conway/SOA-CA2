@@ -6,5 +6,7 @@ namespace api.DrivenAdapters;
 public interface IDatabaseAdapter
 {
     Task<ActionResult<PokemonDTO>> CreatePokemon(PokemonDTO pokemon);
-    Task<ActionResult<PokemonDTO>> getRandomPokemon();
+    Task<ActionResult<PokemonDTO>> GetRandomPokemon();
+
+    Task<ActionResult<QuestionDTO>> CreateQuestion(QuestionDTO question);
 }

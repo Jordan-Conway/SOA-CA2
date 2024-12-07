@@ -25,7 +25,7 @@ namespace api.Controllers
         [HttpGet("random")]
         public async Task<ActionResult<PokemonDTO>> GetRandomPokemonEntry()
         {
-            var pokemon = await sqliteAdapter.getRandomPokemon();
+            var pokemon = await sqliteAdapter.GetRandomPokemon();
 
             if (pokemon == null)
             {
