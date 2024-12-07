@@ -1,5 +1,7 @@
 using api.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace api.DrivenAdapters.DatabaseApaters;
 
@@ -42,5 +44,42 @@ public class SqliteAdapter : IDatabaseAdapter
         await context.SaveChangesAsync();
 
         return question;
+    }
+
+    public async Task<ActionResult<QuestionDTO>> GetQuestion(int id)
+    {
+        var question = await context.QuestionEntry.FindAsync(id);
+        if (question == null)
+        {
+            return null;
+        }
+
+        return new QuestionDTO(question.Id, question.Question, question.CreatedBy);
+    }
+
+    public async Task<ActionResult<QuestionDTO>> GetRandomQuestion()
+    {
+        var questions = await context.QuestionEntry.ToListAsync();
+        if (questions.IsNullOrEmpty())
+        {
+            return null;
+        }
+        var random = new Random();
+
+        var question = questions[random.Next(1, questions.Count) - 1];
+
+        return new QuestionDTO(question.Id, question.Question, question.CreatedBy);
+    }
+
+    public async Task DeleteQuestion(int id)
+    {
+        var questionEntry = await context.QuestionEntry.FindAsync(id);
+        if (questionEntry == null)
+        {
+            return;
+        }
+
+        context.QuestionEntry.Remove(questionEntry);
+        await context.SaveChangesAsync();
     }
 }

@@ -8,6 +8,8 @@ public class QuestionDTO
 
     public QuestionDTO(int id, string question, string createdBy)
     {
-
+        this.Id = id;
+        this.Question = question;
+        this.CreatedBy = createdBy;
     }
 }
