@@ -9,6 +9,7 @@ public class AppDbContext : DbContext
     public required DbSet<PokemonEntry> PokemonEntry { get; set; }
     public required DbSet<QuestionEntry> QuestionEntry { get; set; }
     public required DbSet<VoteEntry> VoteEntry { get; set; }
+    public required DbSet<UserEntry> UserEntry { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
